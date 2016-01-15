@@ -1,0 +1,30 @@
+sudo: required
+
+language: go
+go:
+  - 1.5
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.5.2
+  DH: localhost
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+services:
+    - docker
+install:
+  - go get github.com/InteractiveLecture/id-extractor
+  - go get github.com/InteractiveLecture/middlewares/jwtware
+  - go get github.com/richterrettich/jsonpatch
+  - go get github.com/InteractiveLecture/pgmapper
+  - go get github.com/gorilla/mux
+  - go get github.com/ant0ine/go-urlrouter
+  - go get github.com/nats-io/nats
+  - go get github.com/stretchr/testify/assert
+
+script:
+  - ./build.sh && ./test.sh && ./push.sh

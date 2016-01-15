@@ -1,0 +1,12 @@
+remote:
+  image: openservice/nats-remote
+  ports:
+    - "8080:8080"
+  links:
+    - "nats:nats"
+nats:
+  image: nats
+  ports:
+    - "4222:4222"
+  expose:
+    - "4222"
